@@ -3,7 +3,9 @@ package com.ITA.Agil.demo.service;
 import com.ITA.Agil.demo.model.Usuario;
 import com.ITA.Agil.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,26 +28,42 @@ public class UsuarioService {
 
     public Usuario obterUsuarioPorId(Long id) {
         Optional<Usuario> entity = usuarioRepository.findById(id);
-        return entity.get();
+        return entity.orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Usuário " + id + " não encontrado."));
     }
 
-    public Usuario atualizarUsuario(Long id, Usuario entity) {
-        Usuario usuario = usuarioRepository.getReferenceById(id);
-        updateData(entity, usuario);
-        return usuarioRepository.save(usuario);
+    public List<Usuario> obterUsuarioPorNomeLike(String nome) {
+        return usuarioRepository.findByNomeLikeIgnoreCase(nome);
+    }
+
+    public Usuario atualizarUsuario(Long id, Usuario usuario) {
+        try {
+            Usuario entity = usuarioRepository.getReferenceById(id);
+            updateData(entity, usuario);
+            return usuarioRepository.save(entity);
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Usuário " + id + " não encontrado");
+        }
     }
 
     private void updateData(Usuario entity, Usuario usuario) {
-        usuario.setNome(entity.getNome());
-        usuario.setEmail(entity.getEmail());
-        usuario.setSenha(entity.getSenha());
-        usuario.setPontuacao(entity.getPontuacao());
-        usuario.setTrofeu(entity.getTrofeu());
-        usuario.setUpdated_at(LocalDateTime.now());
+        entity.setNome(usuario.getNome());
+        entity.setEmail(usuario.getEmail());
+        entity.setSenha(usuario.getSenha());
+        entity.setPontuacao(usuario.getPontuacao());
+        entity.setTrofeu(usuario.getTrofeu());
+        entity.setUpdated_at(LocalDateTime.now());
     }
 
     public void deletarUsuario(Long id) {
-        usuarioRepository.deleteById(id);
+        try {
+            usuarioRepository.deleteById(id);
+        } catch (RuntimeException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Usuário " + id + " não encontrado");
+        }
     }
 
 }
