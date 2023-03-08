@@ -20,13 +20,13 @@ public class Usuario {
     @Column(name = "id_usuario")
     private Long id;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String nome;
 
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(length = 100, unique = true)
     private String email;
 
-    @Column(length = 12, nullable = false)
+    @Column(length = 12)
     private String senha;
 
     private Integer pontuacao;
