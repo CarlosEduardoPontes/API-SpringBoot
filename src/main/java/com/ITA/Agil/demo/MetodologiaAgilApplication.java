@@ -1,7 +1,10 @@
 package com.ITA.Agil.demo;
 
 import com.ITA.Agil.demo.model.Livro;
+import com.ITA.Agil.demo.model.Usuario;
 import com.ITA.Agil.demo.repository.LivroRepository;
+import com.ITA.Agil.demo.repository.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +12,9 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class MetodologiaAgilApplication {
+
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MetodologiaAgilApplication.class, args);
@@ -25,6 +31,16 @@ public class MetodologiaAgilApplication {
 			c.setEstilo("Programacao");
 
 			livroRepository.save(c);
+
+			Usuario u = new Usuario(
+					1L,
+					"Zé",
+					"zezinhopatriota@mito.com",
+					"bozo22",
+					5,
+					true);
+
+			usuarioRepository.save(u);
 		};
 	}
 }
