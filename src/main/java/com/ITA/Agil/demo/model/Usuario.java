@@ -39,12 +39,13 @@ public class Usuario {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updated_at;
 
-    public Usuario(Long id, String nome, String email, String senha, Integer pontuacao, Boolean trofeu) {
+    public Usuario(Long id, String nome, String email, String senha, Integer pontuacao, Boolean trofeu, LocalDateTime created_at) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.pontuacao = pontuacao;
         this.trofeu = trofeu;
+        this.created_at = created_at;
     }
 }
