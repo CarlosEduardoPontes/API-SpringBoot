@@ -36,6 +36,12 @@ public class UsuarioController {
         return ResponseEntity.ok().body(entity);
     }
 
+    @GetMapping(params = "nome")
+    public ResponseEntity<List<Usuario>> obterPorNomeLike(@RequestParam(value="nome") String nome) {
+        List<Usuario> entity = usuarioService.obterUsuarioPorNomeLike("%" + nome + "%");
+        return ResponseEntity.ok().body(entity);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
         usuario = usuarioService.atualizarUsuario(id, usuario);

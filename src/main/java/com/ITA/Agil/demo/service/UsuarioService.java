@@ -33,6 +33,10 @@ public class UsuarioService {
                         "Usuário " + id + " não encontrado."));
     }
 
+    public List<Usuario> obterUsuarioPorNomeLike(String nome) {
+        return usuarioRepository.findByNomeLikeIgnoreCase(nome);
+    }
+
     public Usuario atualizarUsuario(Long id, Usuario usuario) {
         try {
             Usuario entity = usuarioRepository.getReferenceById(id);
