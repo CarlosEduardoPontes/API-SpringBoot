@@ -31,7 +31,7 @@ public class MetodologiaAgilApplication {
 			c.setNome("Curso de Spring");
 			c.setNumeroPagina(200);
 			c.setEstilo("Programacao");
-
+			c.setStatus("Ativo");
 			livroRepository.save(c);
 
 			Usuario u = new Usuario(
