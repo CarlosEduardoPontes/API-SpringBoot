@@ -19,10 +19,15 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioRequestDTO adicionarUsuario(Usuario usuario) {
-        usuario.setCreated_at(LocalDateTime.now());
-        var entity = usuarioRepository.save(usuario);
-        return new UsuarioRequestDTO(usuario);
+    public UsuarioRequestDTO adicionarUsuario(UsuarioRequestDTO dto) {
+        var entity = new Usuario();
+        entity.setNome(dto.getNome());
+        entity.setEmail(dto.getEmail());
+        entity.setSenha(dto.getSenha());
+        entity.setPontuacao(0);
+        entity.setTrofeu(false);
+        entity.setCreated_at(LocalDateTime.now());
+        return new UsuarioRequestDTO(usuarioRepository.save(entity));
     }
 
     public List<UsuarioDTO> listarTodosUsuarios() {
