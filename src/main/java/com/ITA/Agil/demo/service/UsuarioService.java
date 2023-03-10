@@ -2,6 +2,7 @@ package com.ITA.Agil.demo.service;
 
 import com.ITA.Agil.demo.model.Usuario;
 import com.ITA.Agil.demo.model.dtos.UsuarioDTO;
+import com.ITA.Agil.demo.model.dtos.UsuarioRequestDTO;
 import com.ITA.Agil.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +19,10 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioDTO adicionarUsuario(Usuario usuario) {
+    public UsuarioRequestDTO adicionarUsuario(Usuario usuario) {
         usuario.setCreated_at(LocalDateTime.now());
         var entity = usuarioRepository.save(usuario);
-        return new UsuarioDTO(usuario);
+        return new UsuarioRequestDTO(usuario);
     }
 
     public List<UsuarioDTO> listarTodosUsuarios() {
@@ -43,7 +44,7 @@ public class UsuarioService {
         return dto;
     }
 
-    public UsuarioDTO atualizarUsuario(Long id, Usuario usuario) {
+    public UsuarioRequestDTO atualizarUsuario(Long id, Usuario usuario) {
         var entity = usuarioRepository.findById(id).map(x -> {
             x.setNome(usuario.getNome());
             x.setEmail(usuario.getEmail());
@@ -54,7 +55,7 @@ public class UsuarioService {
             return usuarioRepository.save(x);})
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Usuário " + id + " não encontrado."));
-        return new UsuarioDTO(entity);
+        return new UsuarioRequestDTO(entity);
     }
 
     public void deletarUsuario(Long id) {
