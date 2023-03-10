@@ -20,32 +20,32 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioRequestDTO> salvar(@RequestBody UsuarioRequestDTO usuario) {
+    public ResponseEntity salvar(@RequestBody UsuarioRequestDTO usuario) {
         var entity = usuarioService.adicionarUsuario(usuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
         return ResponseEntity.created(uri).body(entity);
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> listarTodos() {
+    public ResponseEntity listarTodos() {
         var list = usuarioService.listarTodosUsuarios();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> obterPorId(@PathVariable Long id) {
+    public ResponseEntity obterPorId(@PathVariable Long id) {
         var entity = usuarioService.obterUsuarioPorId(id);
         return ResponseEntity.ok().body(entity);
     }
 
     @GetMapping(value = "/user", params = "nome")
-    public ResponseEntity<List<UsuarioDTO>> obterPorNomeLike(@RequestParam(value="nome") String nome) {
+    public ResponseEntity obterPorNomeLike(@RequestParam(value="nome") String nome) {
         var entity = usuarioService.obterUsuarioPorNomeLike("%" + nome + "%");
         return ResponseEntity.ok().body(entity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioRequestDTO> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
         var entity = usuarioService.atualizarUsuario(id, usuario);
         return ResponseEntity.ok().body(entity);
     }
