@@ -1,6 +1,7 @@
 package com.ITA.Agil.demo.controller;
 
 import com.ITA.Agil.demo.model.Usuario;
+import com.ITA.Agil.demo.model.dtos.UsuarioDTO;
 import com.ITA.Agil.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,34 +19,34 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) {
-        usuarioService.adicionarUsuario(usuario);
+    public ResponseEntity<UsuarioDTO> salvar(@RequestBody Usuario usuario) {
+        var entity = usuarioService.adicionarUsuario(usuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(usuario);
+        return ResponseEntity.created(uri).body(entity);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarTodos() {
+    public ResponseEntity<List<UsuarioDTO>> listarTodos() {
         var list = usuarioService.listarTodosUsuarios();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obterPorId(@PathVariable Long id) {
-        Usuario entity = usuarioService.obterUsuarioPorId(id);
+    public ResponseEntity<UsuarioDTO> obterPorId(@PathVariable Long id) {
+        var entity = usuarioService.obterUsuarioPorId(id);
         return ResponseEntity.ok().body(entity);
     }
 
     @GetMapping(params = "nome")
-    public ResponseEntity<List<Usuario>> obterPorNomeLike(@RequestParam(value="nome") String nome) {
-        List<Usuario> entity = usuarioService.obterUsuarioPorNomeLike("%" + nome + "%");
+    public ResponseEntity<List<UsuarioDTO>> obterPorNomeLike(@RequestParam(value="nome") String nome) {
+        var entity = usuarioService.obterUsuarioPorNomeLike("%" + nome + "%");
         return ResponseEntity.ok().body(entity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        usuario = usuarioService.atualizarUsuario(id, usuario);
-        return ResponseEntity.ok().body(usuario);
+    public ResponseEntity<UsuarioDTO> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+        var entity = usuarioService.atualizarUsuario(id, usuario);
+        return ResponseEntity.ok().body(entity);
     }
 
     @DeleteMapping("/{id}")
