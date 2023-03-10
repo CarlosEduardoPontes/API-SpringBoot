@@ -38,7 +38,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(entity);
     }
 
-    @GetMapping(params = "nome")
+    @GetMapping(value = "/user", params = "nome")
     public ResponseEntity<List<UsuarioDTO>> obterPorNomeLike(@RequestParam(value="nome") String nome) {
         var entity = usuarioService.obterUsuarioPorNomeLike("%" + nome + "%");
         return ResponseEntity.ok().body(entity);
