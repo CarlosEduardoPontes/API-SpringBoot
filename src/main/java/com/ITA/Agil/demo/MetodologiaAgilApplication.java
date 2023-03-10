@@ -38,7 +38,7 @@ public class MetodologiaAgilApplication {
 					1L,
 					"Zé",
 					"zezinhopatriota@mito.com",
-					"bozo22",
+					"bozo2022",
 					5,
 					true,
 					LocalDateTime.now());
