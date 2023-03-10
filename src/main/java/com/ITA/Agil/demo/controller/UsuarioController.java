@@ -20,9 +20,9 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioRequestDTO> salvar(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioRequestDTO> salvar(@RequestBody UsuarioRequestDTO usuario) {
         var entity = usuarioService.adicionarUsuario(usuario);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
         return ResponseEntity.created(uri).body(entity);
     }
 
