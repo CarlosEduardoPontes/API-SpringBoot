@@ -49,4 +49,12 @@ public class Usuario {
         this.trofeu = trofeu;
         this.created_at = created_at;
     }
+
+    public Usuario(Long id, String nome, String email, Integer pontuacao, Boolean trofeu) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.pontuacao = pontuacao;
+        this.trofeu = trofeu;
+    }
 }

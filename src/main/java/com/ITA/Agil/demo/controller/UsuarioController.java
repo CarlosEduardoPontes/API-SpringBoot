@@ -20,40 +20,35 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<UsuarioRequestDTO> salvar(@RequestBody UsuarioRequestDTO usuario) {
+    public ResponseEntity salvar(@RequestBody UsuarioDTO usuario) {
         var entity = usuarioService.adicionarUsuario(usuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
         return ResponseEntity.created(uri).body(entity);
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> listarTodos() {
-        var list = usuarioService.listarTodosUsuarios();
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity listarTodos() {
+        return ResponseEntity.ok().body(usuarioService.listarTodosUsuarios());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> obterPorId(@PathVariable Long id) {
-        var entity = usuarioService.obterUsuarioPorId(id);
-        return ResponseEntity.ok().body(entity);
+    public ResponseEntity obterPorId(@PathVariable Long id) {
+        return ResponseEntity.ok().body(usuarioService.obterUsuarioPorId(id));
     }
 
     @GetMapping(value = "/user", params = "nome")
-    public ResponseEntity<List<UsuarioDTO>> obterPorNomeLike(@RequestParam(value="nome") String nome) {
-        var entity = usuarioService.obterUsuarioPorNomeLike("%" + nome + "%");
-        return ResponseEntity.ok().body(entity);
+    public ResponseEntity obterPorNomeLike(@RequestParam(value="nome") String nome) {
+        return ResponseEntity.ok().body(usuarioService.obterUsuarioPorNomeLike("%" + nome + "%"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioRequestDTO> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        var entity = usuarioService.atualizarUsuario(id, usuario);
-        return ResponseEntity.ok().body(entity);
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody UsuarioDTO usuario) {
+        return ResponseEntity.ok().body(usuarioService.atualizarUsuario(id, usuario));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
-        String msg = "Usuário " + id + " removido com sucesso.";
-        return ResponseEntity.ok().body(msg);
+        return ResponseEntity.noContent().build();
     }
 }

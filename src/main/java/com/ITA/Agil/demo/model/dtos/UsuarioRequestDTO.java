@@ -24,4 +24,5 @@ public class UsuarioRequestDTO {
         email = usuario.getEmail();
         senha = usuario.getSenha();
     }
+
 }

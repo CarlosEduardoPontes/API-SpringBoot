@@ -19,21 +19,16 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioRequestDTO adicionarUsuario(UsuarioRequestDTO dto) {
+    public UsuarioDTO adicionarUsuario(UsuarioDTO dto) {
         var entity = new Usuario();
-        entity.setNome(dto.getNome());
-        entity.setEmail(dto.getEmail());
-        entity.setSenha(dto.getSenha());
-        entity.setPontuacao(0);
-        entity.setTrofeu(false);
         entity.setCreated_at(LocalDateTime.now());
-        return new UsuarioRequestDTO(usuarioRepository.save(entity));
+        usuarioRepository.save(entity);
+        return new UsuarioDTO(entity);
     }
 
     public List<UsuarioDTO> listarTodosUsuarios() {
         var list = usuarioRepository.findAll();
-        var dto = list.stream().map(x -> new UsuarioDTO(x)).collect(Collectors.toList());
-        return dto;
+        return list.stream().map(UsuarioDTO::new).collect(Collectors.toList());
     }
 
     public UsuarioDTO obterUsuarioPorId(Long id) {
@@ -45,22 +40,21 @@ public class UsuarioService {
 
     public List<UsuarioDTO> obterUsuarioPorNomeLike(String nome) {
         var entity = usuarioRepository.findByNomeLikeIgnoreCase(nome);
-        var dto = entity.stream().map(x -> new UsuarioDTO(x)).collect(Collectors.toList());
-        return dto;
+        return entity.stream().map(UsuarioDTO::new).collect(Collectors.toList());
     }
 
-    public UsuarioRequestDTO atualizarUsuario(Long id, Usuario usuario) {
-        var entity = usuarioRepository.findById(id).map(x -> {
-            x.setNome(usuario.getNome());
-            x.setEmail(usuario.getEmail());
-            x.setSenha(usuario.getSenha());
-            x.setPontuacao(usuario.getPontuacao());
-            x.setTrofeu(usuario.getTrofeu());
-            x.setUpdated_at(LocalDateTime.now());
-            return usuarioRepository.save(x);})
+    public UsuarioDTO atualizarUsuario(Long id, UsuarioDTO usuario) {
+        var entity = usuarioRepository.findById(id)
+                .map(x -> {
+                    x.setNome(usuario.getNome());
+                    x.setEmail(usuario.getEmail());
+                    x.setPontuacao(usuario.getPontuacao());
+                    x.setTrofeu(usuario.getTrofeu());
+                    x.setUpdated_at(LocalDateTime.now());
+                    return usuarioRepository.save(x);})
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Usuário " + id + " não encontrado."));
-        return new UsuarioRequestDTO(entity);
+        return new UsuarioDTO(entity);
     }
 
     public void deletarUsuario(Long id) {
