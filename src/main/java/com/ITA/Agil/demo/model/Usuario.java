@@ -27,7 +27,7 @@ public class Usuario {
     @Column(length = 100, unique = true)
     private String email;
 
-    @Length(min = 8, max = 12)
+//    @Length(min = 8, max = 12)
     private String senha;
 
     private Integer pontuacao;
@@ -39,6 +39,8 @@ public class Usuario {
 
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm:ss")
     private LocalDateTime updated_at;
+
+    private boolean admin;
 
     public Usuario(Long id, String nome, String email, String senha, Integer pontuacao, Boolean trofeu, LocalDateTime created_at) {
         this.id = id;

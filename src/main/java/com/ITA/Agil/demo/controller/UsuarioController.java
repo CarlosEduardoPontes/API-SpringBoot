@@ -20,10 +20,10 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody UsuarioDTO usuario) {
-        var entity = usuarioService.adicionarUsuario(usuario);
+    public ResponseEntity salvar(@RequestBody Usuario usuario) {
+        usuario = usuarioService.adicionarUsuario(usuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
-        return ResponseEntity.created(uri).body(entity);
+        return ResponseEntity.created(uri).body(usuario);
     }
 
     @GetMapping

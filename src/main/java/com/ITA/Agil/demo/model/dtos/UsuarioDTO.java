@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +18,7 @@ public class UsuarioDTO {
     private String email;
     private Integer pontuacao;
     private Boolean trofeu;
+    private boolean admin;
 
     public UsuarioDTO(Usuario usuario) {
         id = usuario.getId();
@@ -26,6 +26,7 @@ public class UsuarioDTO {
         email = usuario.getEmail();
         pontuacao = usuario.getPontuacao();
         trofeu = usuario.getTrofeu();
+        admin = usuario.isAdmin();
     }
 
     public Usuario fromDTO() {

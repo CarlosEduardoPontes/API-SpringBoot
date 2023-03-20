@@ -18,11 +18,13 @@ public class UsuarioRequestDTO {
     private String email;
     @Length(min = 8, max = 12)
     private String senha;
+    private boolean admin;
 
     public UsuarioRequestDTO(Usuario usuario) {
         nome = usuario.getNome();
         email = usuario.getEmail();
         senha = usuario.getSenha();
+        admin = usuario.isAdmin();
     }
 
 }
