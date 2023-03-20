@@ -22,7 +22,8 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity salvar(@RequestBody Usuario usuario) {
         usuario = usuarioService.adicionarUsuario(usuario);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").build().toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(usuario);
     }
 
@@ -36,7 +37,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioService.obterUsuarioPorId(id));
     }
 
-    @GetMapping(value = "/user", params = "nome")
+    @GetMapping(params = "nome")
     public ResponseEntity obterPorNomeLike(@RequestParam(value="nome") String nome) {
         return ResponseEntity.ok().body(usuarioService.obterUsuarioPorNomeLike("%" + nome + "%"));
     }

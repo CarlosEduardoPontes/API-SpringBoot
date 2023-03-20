@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,15 +21,12 @@ import java.util.stream.Collectors;
 public class UsuarioService implements UserDetailsService {
 
     @Autowired
-    private PasswordEncoder encoder;
-
-    @Autowired
     private UsuarioRepository usuarioRepository;
 
     public Usuario adicionarUsuario(Usuario usuario) {
-        usuario.setSenha(encoder.encode(usuario.getSenha()));
         usuario.setCreated_at(LocalDateTime.now());
-        return usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
+        return usuario;
     }
 
     public List<UsuarioDTO> listarTodosUsuarios() {
@@ -46,7 +42,7 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public List<UsuarioDTO> obterUsuarioPorNomeLike(String nome) {
-        var entity = usuarioRepository.findByNomeLikeIgnoreCase("%" + nome + "%");
+        var entity = usuarioRepository.findByNomeLikeIgnoreCase(nome);
         return entity.stream().map(UsuarioDTO::new).collect(Collectors.toList());
     }
 
@@ -83,7 +79,7 @@ public class UsuarioService implements UserDetailsService {
                 .builder()
                 .username(usuario.getEmail())
                 .password(usuario.getSenha())
-                .roles(roles)
+                .roles()
                 .build();
     }
 }
