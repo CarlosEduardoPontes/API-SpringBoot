@@ -2,7 +2,6 @@ package com.ITA.Agil.demo.service;
 
 import com.ITA.Agil.demo.model.Usuario;
 import com.ITA.Agil.demo.model.dtos.UsuarioDTO;
-import com.ITA.Agil.demo.model.dtos.UsuarioRequestDTO;
 import com.ITA.Agil.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,12 +21,16 @@ import java.util.stream.Collectors;
 public class UsuarioService implements UserDetailsService {
 
     @Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario adicionarUsuario(Usuario usuario) {
+    public UsuarioDTO adicionarUsuario(Usuario usuario) {
+        usuario.setSenha(encoder.encode(usuario.getSenha()));
         usuario.setCreated_at(LocalDateTime.now());
         usuarioRepository.save(usuario);
-        return usuario;
+        return new UsuarioDTO(usuario);
     }
 
     public List<UsuarioDTO> listarTodosUsuarios() {
@@ -35,7 +39,7 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public UsuarioDTO obterUsuarioPorId(Long id) {
-        Usuario entity = usuarioRepository.findById(id)
+        var entity = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Usuário " + id + " não encontrado."));
         return new UsuarioDTO(entity);
@@ -79,7 +83,7 @@ public class UsuarioService implements UserDetailsService {
                 .builder()
                 .username(usuario.getEmail())
                 .password(usuario.getSenha())
-                .roles()
+                .roles(roles)
                 .build();
     }
 }

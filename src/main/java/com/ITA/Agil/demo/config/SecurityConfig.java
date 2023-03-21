@@ -36,14 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/api/usuarios/**")
-                        .permitAll()
-                    .antMatchers(HttpMethod.GET,"/api/usuarios/**")
-                        .hasRole("ADMIN")
-                    .antMatchers(HttpMethod.PUT,"/api/usuarios/**")
-                        .hasRole("ADMIN")
-                    .antMatchers(HttpMethod.DELETE, "/api/usuarios/**")
-                        .hasRole("ADMIN")
+                // Autorizações Endpoints API Usuários
+                .antMatchers(HttpMethod.POST, "/api/usuarios/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/usuarios/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/usuarios/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN")
+                // Fim lista de autorizações API Usuários
                 .and()
                     .httpBasic();
     }

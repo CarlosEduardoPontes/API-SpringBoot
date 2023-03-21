@@ -2,7 +2,6 @@ package com.ITA.Agil.demo.controller;
 
 import com.ITA.Agil.demo.model.Usuario;
 import com.ITA.Agil.demo.model.dtos.UsuarioDTO;
-import com.ITA.Agil.demo.model.dtos.UsuarioRequestDTO;
 import com.ITA.Agil.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -21,10 +19,10 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity salvar(@RequestBody Usuario usuario) {
-        usuario = usuarioService.adicionarUsuario(usuario);
+        var entity = usuarioService.adicionarUsuario(usuario);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(usuario);
+        return ResponseEntity.created(uri).body(entity);
     }
 
     @GetMapping

@@ -2,6 +2,7 @@ package com.ITA.Agil.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "usuario")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
@@ -59,4 +61,5 @@ public class Usuario {
         this.pontuacao = pontuacao;
         this.trofeu = trofeu;
     }
+
 }
