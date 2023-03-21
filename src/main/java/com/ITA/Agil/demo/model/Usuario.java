@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,7 +30,6 @@ public class Usuario {
     @Column(length = 100, unique = true)
     private String email;
 
-//    @Length(min = 8, max = 12)
     private String senha;
 
     private Integer pontuacao;
