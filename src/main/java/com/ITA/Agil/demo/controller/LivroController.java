@@ -30,12 +30,8 @@ public class LivroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Livro> findById(@PathVariable("id") @NotNull @Positive Long id) {
-        return livroService.findById(id)
-                .map(record -> ResponseEntity.ok().body(record))
-                .orElseThrow(( )->
-                        new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                "**************** ID NÃO ENCONTRADO"));
+    public Livro findById(@PathVariable("id") @NotNull @Positive Long id) {
+        return livroService.findById(id);
     }
 
     @PostMapping
@@ -45,20 +41,14 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Livro> update(@PathVariable("id") @NotNull @Positive Long id,
+    public Livro update(@PathVariable("id") @NotNull @Positive Long id,
                                         @RequestBody @Valid Livro livro) {
-        return livroService.update(id, livro)
-                .map(recordFound -> {
-                    return ResponseEntity.ok().body(recordFound);
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return livroService.update(id, livro);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id){
-        if (livroService.delete(id))
-            return ResponseEntity.noContent().<Void>build();
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id){
+        livroService.delete(id);
     }
-//
 }
