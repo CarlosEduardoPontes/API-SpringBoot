@@ -1,5 +1,6 @@
 package com.ITA.Agil.demo.service;
 
+import com.ITA.Agil.demo.exception.RecordNotFoundException;
 import com.ITA.Agil.demo.model.Usuario;
 import com.ITA.Agil.demo.model.dtos.UsuarioDTO;
 import com.ITA.Agil.demo.repository.UsuarioRepository;
@@ -40,8 +41,7 @@ public class UsuarioService implements UserDetailsService {
 
     public UsuarioDTO obterUsuarioPorId(Long id) {
         var entity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Usuário " + id + " não encontrado."));
+                .orElseThrow(() -> new RecordNotFoundException(id));
         return new UsuarioDTO(entity);
     }
 
@@ -66,8 +66,7 @@ public class UsuarioService implements UserDetailsService {
 
     public void deletarUsuario(Long id) {
         var entity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Usuário " + id + " não encontrado"));
+                .orElseThrow(() -> new RecordNotFoundException(id));
         usuarioRepository.delete(entity);
     }
 
