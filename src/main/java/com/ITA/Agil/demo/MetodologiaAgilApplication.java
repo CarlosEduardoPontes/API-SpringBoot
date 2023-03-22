@@ -34,16 +34,6 @@ public class MetodologiaAgilApplication {
 			c.setStatus("Ativo");
 			livroRepository.save(c);
 
-			Usuario u = new Usuario(
-					1L,
-					"Zé",
-					"zezinhopatriota@mito.com",
-					"bozo2022",
-					5,
-					true,
-					LocalDateTime.now());
-
-			usuarioRepository.save(u);
 		};
 	}
 }
