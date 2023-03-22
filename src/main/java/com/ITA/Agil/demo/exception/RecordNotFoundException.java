@@ -8,3 +8,4 @@ public class RecordNotFoundException extends RuntimeException{
         super("Registro" + id + "não encontrado!" );
     }
 }
+
